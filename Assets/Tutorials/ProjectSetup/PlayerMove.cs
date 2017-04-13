@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 
 public class PlayerMove : NetworkBehaviour
 {
+	private SpawnManager bulletPool;
 	[SerializeField] private GameObject bulletPrefab;
 
 	public override void OnStartLocalPlayer()
@@ -12,6 +13,11 @@ public class PlayerMove : NetworkBehaviour
 		base.OnStartLocalPlayer();
 
 		this.GetComponent<MeshRenderer>().material.color = Color.blue;
+	}
+
+	private void Start()
+	{
+		bulletPool = GameObject.Find("BulletPool").GetComponent<SpawnManager>();
 	}
 
 	private void Update()
@@ -63,11 +69,18 @@ public class PlayerMove : NetworkBehaviour
 		}
 	}
 
+	public static WaitForSeconds bulletLifetime = new WaitForSeconds(2f);
+
 	[Command]
 	private void CmdFire()
 	{
-		// create the bullet object from the bullet prefab
-		var bullet = (GameObject)Instantiate(bulletPrefab, transform.position + transform.forward * 1.3f, Quaternion.identity);
+		// create the bullet object from the bullet pool (simplest way would be just to Instantiate here).
+		var bullet = bulletPool.GetFromPool(transform.position + transform.forward * 1.3f);
+
+		if ( bullet == null )
+		{
+			return;
+		}
 
 		// make the bullet move away in front of the player
 		bullet.GetComponent<Rigidbody>().velocity = transform.forward * 4f;
@@ -75,6 +88,6 @@ public class PlayerMove : NetworkBehaviour
 		NetworkServer.Spawn(bullet);
 
 		// make bullet disappear after 2 seconds
-		Destroy(bullet, 2.0f);
+		bulletPool.returnToPool(bullet, bulletLifetime);
 	}
 }

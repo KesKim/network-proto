@@ -8,6 +8,8 @@ public class EnemySpawner : NetworkBehaviour
 
 	public override void OnStartServer()
 	{
+		Debug.Log("Server started at " + Time.time);
+
 		for ( int i = 0; i < numEnemies; i++ )
 		{
 			var pos = new Vector3(Random.Range(-8.0f, 8.0f), 0.2f, Random.Range(-8.0f, 8.0f));

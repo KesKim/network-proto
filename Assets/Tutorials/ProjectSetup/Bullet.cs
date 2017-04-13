@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : Poolable
 {
 	private void OnCollisionEnter(Collision collision)
 	{
@@ -13,7 +13,8 @@ public class Bullet : MonoBehaviour
 		{
 			hitCombat.TakeDamage(10);
 
-			Destroy(gameObject);
+			// Alternatively just Destroy(gameObject);
+			pool.returnToPool(this.gameObject);
 		}
 	}
 }
