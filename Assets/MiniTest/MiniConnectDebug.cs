@@ -7,15 +7,17 @@ public class MiniConnectDebug : NetworkBehaviour
 {
     [SerializeField] private TMPro.TMP_Text text;
 
-    [SyncVar] private string textData;
+	[SyncVar(hook="updateText")] private string textData;
 
-    private void Awake()
-    {
-        CustomNetworkManager.playerJoinedEvent -= updateText;
-        CustomNetworkManager.playerJoinedEvent += updateText;
+	public override void OnStartServer()
+	{
+		base.OnStartServer();
 
-        updateText();
-    }
+		CustomNetworkManager.playersChangedEvent -= refreshText;
+		CustomNetworkManager.playersChangedEvent += refreshText;
+
+		refreshText();
+	}
 
     private void Update()
     {
@@ -25,46 +27,55 @@ public class MiniConnectDebug : NetworkBehaviour
         }
     }
 
-    public override void OnDeserialize(NetworkReader reader, bool initialState)
+//    public override void OnDeserialize(NetworkReader reader, bool initialState)
+//    {
+//        base.OnDeserialize(reader, initialState);
+//
+//        Debug.Log("OnDeserialize");
+//
+//        updateText();
+//    }
+
+	private void refreshText()
+	{
+		if ( this.isServer )
+		{
+			buildText();
+		}
+
+		updateText();
+	}
+
+	// Server only
+	private void buildText()
+	{
+		Debug.Log("Building text");
+		
+		System.Text.StringBuilder builder = new System.Text.StringBuilder();
+		
+		builder.Append("(S) ");
+		builder.AppendLine(NetworkServer.serverHostId.ToString());
+
+		if ( CustomNetworkManager.playersByControllerId != null )
+		{
+			foreach ( KeyValuePair<int, PlayerInfo> kvp in CustomNetworkManager.playersByControllerId )
+			{
+				builder.Append("(C) ");
+				builder.Append(kvp.Value.connectionId);
+				builder.Append(" player ");
+				builder.AppendLine(kvp.Value.uniquePlayerId.ToString());
+			}
+		}
+
+		
+		textData = builder.ToString();
+	}
+
+	private void updateText(string _text = null)
     {
-        base.OnDeserialize(reader, initialState);
+		textData = _text;
 
-        Debug.Log("OnDeserialize");
-
-        updateText();
-    }
-
-    private void updateText()
-    {
-        Debug.Log("updateText");
-
-        if ( this.isServer )
-        {
-            Debug.Log("Building text");
-
-            System.Text.StringBuilder builder = new System.Text.StringBuilder();
-
-            int count = CustomNetworkManager.playersByControllerId == null ? 0 : CustomNetworkManager.playersByControllerId.Count;
-            Debug.Log(count);
-
-            builder.Append("(S) ");
-            builder.Append(NetworkServer.serverHostId);
-            builder.Append(" ");
-            builder.AppendLine(this.playerControllerId.ToString());
-
-            foreach ( KeyValuePair<short, PlayerInfo> kvp in CustomNetworkManager.playersByControllerId )
-            {
-                builder.Append("(C) ");
-                builder.Append(kvp.Value.playerControllerId);
-                builder.Append(" ");
-                builder.AppendLine(kvp.Value.connectionToServer.address);
-                //builder.Append(NetworkClient.allClients[i].connection.address);
-                //builder.Append(" ");
-                //builder.AppendLine(NetworkClient.allClients[i].connection.connectionId.ToString());
-            }
-
-            textData = builder.ToString();
-        }
+		Debug.Log("updateText: " + _text);
 
         text.text = textData;
     }

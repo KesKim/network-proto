@@ -5,14 +5,38 @@ using UnityEngine.Networking;
 
 public class PlayerInfo : NetworkBehaviour
 {
-    [SyncVar] public string text;
-
     public NetworkIdentity networkIdentity;
 
-    public override void OnStartLocalPlayer()
-    {
-        base.OnStartLocalPlayer();
+	public bool isRemoteClient
+	{
+		get
+		{
+			return (networkIdentity.isServer == false);
+		}
+	}
 
-        text = Network.player.ipAddress;
-    }
+	public bool isHostClient
+	{
+		get
+		{
+			return networkIdentity.isServer;
+		}
+	}
+
+	public int connectionId
+	{
+		get
+		{
+			if ( networkIdentity.connectionToClient != null )
+			{
+				return networkIdentity.connectionToClient.connectionId;
+			}
+			else
+			{
+				return networkIdentity.connectionToServer.connectionId;
+			}
+		}
+	}
+
+	public int uniquePlayerId;
 }

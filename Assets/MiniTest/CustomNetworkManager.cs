@@ -6,42 +6,68 @@ using UnityEngine.Networking;
 public class CustomNetworkManager : NetworkManager
 {
     [SyncEvent]
-    public static event System.Action playerJoinedEvent;
+    public static event System.Action playersChangedEvent;
 
-    public static Dictionary<short, PlayerInfo> playersByControllerId;
+    public static Dictionary<int, PlayerInfo> playersByControllerId;
 
-    public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
+	public List<int> freePlayerIds;
+
+	private void Awake()
+	{
+		freePlayerIds = new List<int>(){1, 2};
+	}
+
+    public override void OnServerAddPlayer(NetworkConnection _connection, short _playerControllerId)
     {
-        Debug.Log(conn.address + " " + conn.connectionId);
+		Debug.Log("Player joining: " + _connection.address + " " + _connection.connectionId + " " + _playerControllerId);
 
         GameObject playerObject = (GameObject)GameObject.Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
-        playerObject.name = "PlayerObject" + playerControllerId;
+        playerObject.name = "PlayerObject" + _playerControllerId;
 
         PlayerInfo info = playerObject.GetComponent<PlayerInfo>();
 
-        for ( int i = conn.playerControllers.Count - 1; i > -1; i-- )
-        {
-            if ( conn.playerControllers[i].playerControllerId == playerControllerId )
-            {
-                info.networkIdentity = conn.playerControllers[0].unetView;
-            }
-        }
+		info.networkIdentity = info.GetComponent<NetworkIdentity>();
 
         if ( playersByControllerId == null )
         {
-            playersByControllerId = new Dictionary<short, PlayerInfo>();
+            playersByControllerId = new Dictionary<int, PlayerInfo>();
         }
 
-        if ( playersByControllerId.ContainsKey(playerControllerId) == false )
+		info.uniquePlayerId = freePlayerIds[0];
+		freePlayerIds.RemoveAt(0);
+
+		if ( playersByControllerId.ContainsKey(_connection.connectionId) == false )
         {
-            playersByControllerId.Add(playerControllerId, info);
+			Debug.Log(string.Format("Added player {0} to list as connection {1}", info.uniquePlayerId, _connection.connectionId));
+			playersByControllerId.Add(_connection.connectionId, info);
         }
 
-        NetworkServer.AddPlayerForConnection(conn, playerObject, playerControllerId);
+        NetworkServer.AddPlayerForConnection(_connection, playerObject, _playerControllerId);
 
-        if ( playerJoinedEvent != null )
+        if ( playersChangedEvent != null )
         {
-            playerJoinedEvent();
+            playersChangedEvent();
         }
     }
+
+	public override void OnServerRemovePlayer(NetworkConnection _connection, PlayerController _player)
+	{
+		int uniquePlayerId = _player.gameObject.GetComponent<PlayerInfo>().uniquePlayerId;
+
+		if ( freePlayerIds.Contains(uniquePlayerId) == false )
+		{
+			freePlayerIds.Add(uniquePlayerId);
+			freePlayerIds.Sort();
+		}
+
+		if ( playersByControllerId.Remove(_connection.connectionId) )
+		{
+			if ( playersChangedEvent != null )
+			{
+				playersChangedEvent();
+			}
+		}
+
+		base.OnServerRemovePlayer(_connection, _player);
+	}
 }
