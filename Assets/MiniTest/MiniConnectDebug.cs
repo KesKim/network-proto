@@ -73,7 +73,10 @@ public class MiniConnectDebug : NetworkBehaviour
 
 	private void updateText(string _text = null)
     {
-		textData = _text;
+		if ( (string.IsNullOrEmpty(_text) && this.isServer) == false )
+		{
+			textData = _text;
+		}
 
 		Debug.Log("updateText: " + _text);
 
