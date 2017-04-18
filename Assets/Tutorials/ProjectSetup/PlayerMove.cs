@@ -33,7 +33,7 @@ public class PlayerMove : NetworkBehaviour
 		var absX = Mathf.Abs(x);
 		var absZ = Mathf.Abs(z);
 
-		float deadzone = 0.005f;
+		//float deadzone = 0.005f;
 
 		//if ( absX > deadzone && absZ > deadzone )
 		{
