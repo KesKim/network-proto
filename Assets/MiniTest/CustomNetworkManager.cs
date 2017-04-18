@@ -50,9 +50,18 @@ public class CustomNetworkManager : NetworkManager
         }
     }
 
-	public override void OnServerRemovePlayer(NetworkConnection _connection, PlayerController _player)
+	public override void OnStopClient ()
 	{
-		int uniquePlayerId = _player.gameObject.GetComponent<PlayerInfo>().uniquePlayerId;
+		Debug.Log("OnStopClient");
+
+		base.OnStopClient();
+	}
+
+	public override void OnServerDisconnect(NetworkConnection _connection)
+	{
+		int uniquePlayerId = playersByControllerId[_connection.connectionId].uniquePlayerId;
+
+		Debug.Log("Disconnecting player: " + uniquePlayerId);
 
 		if ( freePlayerIds.Contains(uniquePlayerId) == false )
 		{
@@ -60,14 +69,36 @@ public class CustomNetworkManager : NetworkManager
 			freePlayerIds.Sort();
 		}
 
-		if ( playersByControllerId.Remove(_connection.connectionId) )
+		playersByControllerId.Remove(_connection.connectionId);
+
+		if ( _connection.lastError != NetworkError.Ok )
 		{
-			if ( playersChangedEvent != null )
+			switch ( _connection.lastError )
 			{
-				playersChangedEvent();
+				case NetworkError.Ok:
+				{
+					break;
+				}
+				case NetworkError.Timeout:
+				{
+					Debug.LogWarning("Unity ServerDisconnected due to error: " + _connection.lastError);
+					break;
+				}
+				default:
+				{
+					Debug.LogError("Unity ServerDisconnected due to error: " + _connection.lastError);
+					break;	
+				}
 			}
 		}
 
-		base.OnServerRemovePlayer(_connection, _player);
+		NetworkServer.DestroyPlayersForConnection(_connection);
+		// default implementation basically just calls the above line and prints errors if any
+		//base.OnServerDisconnect(_connection);
+
+		if ( playersChangedEvent != null )
+		{
+			playersChangedEvent();
+		}
 	}
 }
