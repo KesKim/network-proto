@@ -41,6 +41,8 @@ public class SceneActionsListener : SceneActions
 
     private void onServerFound(string _fromAddress, string _data)
     {
+        Debug.Log(TestNetClient.Instance.broadcastsReceived == null ? "Null broadcast Dict." : TestNetClient.Instance.broadcastsReceived.Count < 1 ? "Empty broadcast Dict." : TestNetClient.Instance.broadcastsReceived.Count + " entries known.");
+
         if ( TestNetClient.Instance.broadcastsReceived != null && TestNetClient.Instance.broadcastsReceived.Count > 0 )
         {
             int count = TestNetClient.Instance.broadcastsReceived.Count;
@@ -49,8 +51,11 @@ public class SceneActionsListener : SceneActions
 
             foreach ( KeyValuePair<string, NetworkBroadcastResult> kvp in TestNetClient.Instance.broadcastsReceived )
             {
+                Debug.Log("Hi");
                 sceneActions.Add(new TestAction(()=>{joinGame(kvp.Value.serverAddress);}, kvp.Key));
             }
+
+            buttonGrid.setActions(sceneActions.ToArray());
         }
         else
         {
