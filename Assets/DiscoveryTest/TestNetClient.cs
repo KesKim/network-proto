@@ -5,7 +5,22 @@ using UnityEngine.Networking;
 
 public class TestNetClient : NetworkDiscovery
 {
-    void Start()
+    public static event System.Action<string, string> serverFoundEvent;
+
+    public static TestNetClient Instance;
+
+    private void Awake()
+    {
+        if ( Instance != null )
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
+
+    private void Start()
     {
         startClient();
     }
@@ -16,8 +31,21 @@ public class TestNetClient : NetworkDiscovery
         StartAsClient();
     }
 
-    public override void OnReceivedBroadcast(string fromAddress, string data)
+    public override void OnReceivedBroadcast(string _fromAddress, string _data)
     {
-        Debug.Log("Server Found");
+        Debug.Log("Server Found at " + _fromAddress + " with data: " + _data);
+
+        if ( serverFoundEvent != null )
+        {
+            serverFoundEvent(_fromAddress, _data);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if ( this == Instance )
+        {
+            Instance = null;
+        }
     }
 }

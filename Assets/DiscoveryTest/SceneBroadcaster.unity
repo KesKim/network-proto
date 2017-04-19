@@ -408,12 +408,57 @@ Prefab:
     - target: {fileID: 224654910178199790, guid: 811c7a571fed3224ab53c7decf9d9527,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0.64840245
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224418549757938986, guid: 811c7a571fed3224ab53c7decf9d9527,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0.9135863
+      value: 0.000012099743
+      objectReference: {fileID: 0}
+    - target: {fileID: 224654910178199790, guid: 811c7a571fed3224ab53c7decf9d9527,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0.32333326
+      objectReference: {fileID: 0}
+    - target: {fileID: 224105169881967278, guid: 811c7a571fed3224ab53c7decf9d9527,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224105169881967278, guid: 811c7a571fed3224ab53c7decf9d9527,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224105169881967278, guid: 811c7a571fed3224ab53c7decf9d9527,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: -17
+      objectReference: {fileID: 0}
+    - target: {fileID: 224105169881967278, guid: 811c7a571fed3224ab53c7decf9d9527,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: -17
+      objectReference: {fileID: 0}
+    - target: {fileID: 224099300491284176, guid: 811c7a571fed3224ab53c7decf9d9527,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224099300491284176, guid: 811c7a571fed3224ab53c7decf9d9527,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: -17
+      objectReference: {fileID: 0}
+    - target: {fileID: 224348691448407952, guid: 811c7a571fed3224ab53c7decf9d9527,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224348691448407952, guid: 811c7a571fed3224ab53c7decf9d9527,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: -17
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 811c7a571fed3224ab53c7decf9d9527, type: 2}
@@ -484,13 +529,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1684791712}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61a8e8947653a8c43bc10daccda83627, type: 3}
+  m_Script: {fileID: 11500000, guid: c762127b69306394898e3b4a732f822a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   buttonGrid: {fileID: 0}
   autoSetupOnStart: 1
-  broadcasterScene: {fileID: 102900000, guid: d9cfe715d8de04f4d96f93e11003257b, type: 3}
-  listenerScene: {fileID: 102900000, guid: 9dc53e0917e3883479476721ac7205fe, type: 3}
 --- !u!4 &1684791714
 Transform:
   m_ObjectHideFlags: 0

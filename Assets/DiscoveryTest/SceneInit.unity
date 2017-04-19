@@ -295,6 +295,46 @@ Prefab:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 224105169881967278, guid: 811c7a571fed3224ab53c7decf9d9527,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224105169881967278, guid: 811c7a571fed3224ab53c7decf9d9527,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224105169881967278, guid: 811c7a571fed3224ab53c7decf9d9527,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: -17
+      objectReference: {fileID: 0}
+    - target: {fileID: 224105169881967278, guid: 811c7a571fed3224ab53c7decf9d9527,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: -17
+      objectReference: {fileID: 0}
+    - target: {fileID: 224099300491284176, guid: 811c7a571fed3224ab53c7decf9d9527,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224099300491284176, guid: 811c7a571fed3224ab53c7decf9d9527,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: -17
+      objectReference: {fileID: 0}
+    - target: {fileID: 224348691448407952, guid: 811c7a571fed3224ab53c7decf9d9527,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224348691448407952, guid: 811c7a571fed3224ab53c7decf9d9527,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: -17
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 811c7a571fed3224ab53c7decf9d9527, type: 2}
   m_IsPrefabParent: 0
@@ -333,8 +373,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonGrid: {fileID: 189827063}
   autoSetupOnStart: 1
-  broadcasterScene: {fileID: 102900000, guid: d9cfe715d8de04f4d96f93e11003257b, type: 3}
-  listenerScene: {fileID: 102900000, guid: 9dc53e0917e3883479476721ac7205fe, type: 3}
 --- !u!4 &619983853
 Transform:
   m_ObjectHideFlags: 0

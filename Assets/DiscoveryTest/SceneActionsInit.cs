@@ -5,9 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class SceneActionsInit : SceneActions
 {
-    [SerializeField] private Object broadcasterScene;
-    [SerializeField] private Object listenerScene;
-
     private void Awake()
     {
         sceneActions = new List<TestAction>()
@@ -20,15 +17,11 @@ public class SceneActionsInit : SceneActions
 
     private void startAsHost()
     {
-        Debug.Log("startAsHost");
-        int sceneBuildIndex = SceneUtility.GetBuildIndexByScenePath("Assets/DiscoveryTest/" + broadcasterScene.name + ".unity");
-        SceneManager.LoadScene(sceneBuildIndex);
+        SceneManager.LoadScene("SceneBroadcaster");
     }
 
     private void startAsClient()
     {
-        Debug.Log("startAsClient");
-        int sceneBuildIndex = SceneUtility.GetBuildIndexByScenePath("Assets/DiscoveryTest/" + listenerScene.name + ".unity");
-        SceneManager.LoadScene(sceneBuildIndex);
+        SceneManager.LoadScene("SceneListener");
     }
 }

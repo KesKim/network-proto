@@ -270,6 +270,11 @@ Prefab:
       propertyPath: m_SizeDelta.y
       value: -17
       objectReference: {fileID: 0}
+    - target: {fileID: 224654910178199790, guid: 811c7a571fed3224ab53c7decf9d9527,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0.32333326
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 811c7a571fed3224ab53c7decf9d9527, type: 2}
   m_IsPrefabParent: 0
@@ -534,13 +539,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1375881789}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61a8e8947653a8c43bc10daccda83627, type: 3}
+  m_Script: {fileID: 11500000, guid: cbf2d4d7750c6a245b469d55744392dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   buttonGrid: {fileID: 0}
   autoSetupOnStart: 1
-  broadcasterScene: {fileID: 102900000, guid: d9cfe715d8de04f4d96f93e11003257b, type: 3}
-  listenerScene: {fileID: 102900000, guid: 9dc53e0917e3883479476721ac7205fe, type: 3}
 --- !u!4 &1375881791
 Transform:
   m_ObjectHideFlags: 0
