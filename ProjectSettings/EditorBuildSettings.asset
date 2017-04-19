@@ -6,5 +6,20 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/DiscoveryTest/SceneInit.unity
+    guid: 1da60df95bc19d54388fa08dddcc1d51
+  - enabled: 1
+    path: Assets/DiscoveryTest/SceneBroadcaster.unity
+    guid: d9cfe715d8de04f4d96f93e11003257b
+  - enabled: 1
+    path: Assets/DiscoveryTest/SceneListener.unity
+    guid: 9dc53e0917e3883479476721ac7205fe
+  - enabled: 1
+    path: Assets/DiscoveryTest/SceneOnline.unity
+    guid: b0c819457c43d8d40ae9288a14b22947
+  - enabled: 1
     path: Assets/MiniTest/MiniConnect.unity
     guid: 59c4720b5bb82814a83657efd524f7e6
+  - enabled: 1
+    path: Assets/DiscoveryTest/MiniConnectDiscovery.unity
+    guid: fa88f345fe02f494eb2455bcbe9db1af
