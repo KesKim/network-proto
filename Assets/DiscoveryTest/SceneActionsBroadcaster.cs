@@ -43,8 +43,16 @@ public class SceneActionsBroadcaster : SceneActions
 
     private void goOnlineAsHost()
     {
+        SceneActionsOnline.isLocalPlayerHost = true;
+
         sceneActions = new List<TestAction>(0);
         setupActionButtons();
+
+        TestNetServer broadcaster = GameObject.FindObjectOfType<TestNetServer>();
+
+        // Configure NetworkManager ahead of time.
+        CustomNetworkManager.singleton.networkPort = broadcaster.broadcastPort;
+        CustomNetworkManager.singleton.networkAddress = Network.player.ipAddress;
 
         endBroadcasting();
 

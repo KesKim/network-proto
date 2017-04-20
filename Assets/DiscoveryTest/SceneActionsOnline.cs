@@ -6,12 +6,36 @@ using UnityEngine.Networking;
 
 public class SceneActionsOnline : SceneActions
 {
+    public static bool isLocalPlayerHost;
+
+    [SerializeField] private GameObject interactionPlane;
+
     private void Awake()
     {
         sceneActions = new List<TestAction>()
         {
             new TestAction(leaveGame, "Leave game")
+            , new TestAction(spawnStuff, "Spawn stuff")
         };
+
+        if ( isLocalPlayerHost )
+        {
+            Debug.Log("Starting host");
+            NetworkClient hostClient = CustomNetworkManager.singleton.StartHost();
+        }
+        else
+        {
+            Debug.Log("Starting client");
+            NetworkClient remoteClient = CustomNetworkManager.singleton.StartClient();
+        }
+    }
+
+    private void spawnStuff()
+    {
+        Debug.Log("Spawning");
+
+        //NetworkServer.Spawn(interactionPlane);
+        NetworkServer.SpawnObjects();
     }
 
     private void leaveGame()
@@ -26,8 +50,6 @@ public class SceneActionsOnline : SceneActions
             Debug.Log("Stopping client");
             CustomNetworkManager.singleton.StopClient();
         }
-
-//        Destroy(CustomNetworkManager.singleton.gameObject, 0.5f);
 
         SceneManager.LoadScene("SceneInit");
     }

@@ -77,6 +77,8 @@ public class SceneActionsListener : SceneActions
 
     private void joinGame(string _serverAddress)
     {
+        SceneActionsOnline.isLocalPlayerHost = false;
+
         lastSelectedAddress = _serverAddress;
 
         TestNetClient listener = GameObject.FindObjectOfType<TestNetClient>();
