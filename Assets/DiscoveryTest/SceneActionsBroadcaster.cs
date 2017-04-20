@@ -9,25 +9,29 @@ public class SceneActionsBroadcaster : SceneActions
     {
         sceneActions = new List<TestAction>()
         {
-            new TestAction(cancelBroadcasting, "Cancel Broadcasting")
-            , new TestAction(startHostingGame, "Start Hosting game")
+            new TestAction(goBackToInit, "Cancel Broadcasting")
+            , new TestAction(goOnlineAsHost, "Start Hosting game")
         };
     }
 
-    private void cancelBroadcasting()
+    private void goBackToInit()
     {
         sceneActions = new List<TestAction>(0);
-
         setupActionButtons();
 
+        endBroadcasting();
+
+        SceneManager.LoadScene("SceneInit");
+        //StartCoroutine(delayAction(()=>{SceneManager.LoadScene("SceneInit");}, new WaitForSeconds(1f)));
+    }
+
+    private void endBroadcasting()
+    {
         TestNetServer broadcaster = GameObject.FindObjectOfType<TestNetServer>();
         broadcaster.StopBroadcast();
         Destroy(broadcaster.gameObject);
 
         NetworkManagerDiscovery.singleton.StopHost();
-
-        SceneManager.LoadScene("SceneInit");
-        //StartCoroutine(delayAction(()=>{SceneManager.LoadScene("SceneInit");}, new WaitForSeconds(1f)));
     }
 
     private IEnumerator delayAction(System.Action _action, WaitForSeconds _delay)
@@ -37,8 +41,13 @@ public class SceneActionsBroadcaster : SceneActions
         _action();
     }
 
-    private void startHostingGame()
+    private void goOnlineAsHost()
     {
+        sceneActions = new List<TestAction>(0);
+        setupActionButtons();
+
+        endBroadcasting();
+
         SceneManager.LoadScene("SceneOnline");
     }
 }

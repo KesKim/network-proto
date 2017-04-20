@@ -18,14 +18,16 @@ public class SceneActionsOnline : SceneActions
     {
         if ( Network.isServer )
         {
+            Debug.Log("Stopping host");
             CustomNetworkManager.singleton.StopHost();
         }
         else
         {
+            Debug.Log("Stopping client");
             CustomNetworkManager.singleton.StopClient();
         }
 
-        Destroy(CustomNetworkManager.singleton.gameObject, 0.5f);
+//        Destroy(CustomNetworkManager.singleton.gameObject, 0.5f);
 
         SceneManager.LoadScene("SceneInit");
     }

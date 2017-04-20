@@ -24,20 +24,27 @@ public class SceneActionsListener : SceneActions
     {
         sceneActions = new List<TestAction>()
         {
-            new TestAction(stopListening, "Stop listening")
+            new TestAction(goBackToInit, "Stop listening")
         };
 
         TestNetClient.serverFoundEvent -= onServerFound;
         TestNetClient.serverFoundEvent += onServerFound;
     }
 
-    private void stopListening()
+    private void goBackToInit()
     {
+        endListening();
+
+        SceneManager.LoadScene("SceneInit");
+    }
+
+    private void endListening()
+    {
+        TestNetClient.serverFoundEvent -= onServerFound;
+
         TestNetClient listener = GameObject.FindObjectOfType<TestNetClient>();
         listener.StopBroadcast();
         Destroy(listener.gameObject);
-
-        SceneManager.LoadScene("SceneInit");
     }
 
     private void onServerFound(string _fromAddress, string _data)
@@ -48,7 +55,7 @@ public class SceneActionsListener : SceneActions
         {
             int count = TestNetClient.Instance.broadcastsReceived.Count;
             sceneActions = new List<TestAction>(count + 1);
-            sceneActions.Add(new TestAction(stopListening, "Stop listening"));
+            sceneActions.Add(new TestAction(goBackToInit, "Stop listening"));
 
             foreach ( KeyValuePair<string, NetworkBroadcastResult> kvp in TestNetClient.Instance.broadcastsReceived )
             {
@@ -63,7 +70,7 @@ public class SceneActionsListener : SceneActions
         {
             sceneActions = new List<TestAction>()
             {
-                new TestAction(stopListening, "Stop listening")
+                new TestAction(goBackToInit, "Stop listening")
             };
         }
     }
@@ -81,6 +88,9 @@ public class SceneActionsListener : SceneActions
         {
             NetworkManager.singleton.networkAddress = _serverAddress;
             NetworkManager.singleton.networkPort = System.Convert.ToInt32(portDataString);
+
+            endListening();
+
             NetworkManager.singleton.StartClient();
         }
 
