@@ -38,7 +38,7 @@ public class DynamicButtonGrid : MonoBehaviour
 
     private void destroyButtons()
     {
-        int count = buttonParent.GetChildCount();
+        int count = buttonParent.childCount;
 
         for ( int i = count - 1; i > -1; i-- )
         {

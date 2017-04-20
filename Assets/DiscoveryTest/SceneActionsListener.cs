@@ -6,17 +6,17 @@ using UnityEngine.Networking;
 
 public class SceneActionsListener : SceneActions
 {
-    public class ServerInfo
-    {
-        string address;
-        string data;
+    //public class ServerInfo
+    //{
+    //    string address;
+    //    string data;
 
-        public ServerInfo(string _address, string _data)
-        {
-            address = _address;
-            data = _data;
-        }
-    }
+    //    public ServerInfo(string _address, string _data)
+    //    {
+    //        address = _address;
+    //        data = _data;
+    //    }
+    //}
 
     public static string lastSelectedAddress;
 
@@ -34,6 +34,7 @@ public class SceneActionsListener : SceneActions
     private void stopListening()
     {
         TestNetClient listener = GameObject.FindObjectOfType<TestNetClient>();
+        listener.StopBroadcast();
         Destroy(listener.gameObject);
 
         SceneManager.LoadScene("SceneInit");
@@ -52,10 +53,11 @@ public class SceneActionsListener : SceneActions
             foreach ( KeyValuePair<string, NetworkBroadcastResult> kvp in TestNetClient.Instance.broadcastsReceived )
             {
                 Debug.Log("Hi");
+
                 sceneActions.Add(new TestAction(()=>{joinGame(kvp.Value.serverAddress);}, kvp.Key));
             }
 
-            buttonGrid.setActions(sceneActions.ToArray());
+            setupActionButtons();
         }
         else
         {
@@ -73,6 +75,22 @@ public class SceneActionsListener : SceneActions
         TestNetClient listener = GameObject.FindObjectOfType<TestNetClient>();
         Destroy(listener.gameObject);
 
+        string portDataString = BytesToString(TestNetClient.Instance.broadcastsReceived[_serverAddress].broadcastData);
+
+        if ( NetworkManager.singleton != null && NetworkManager.singleton.client == null )
+        {
+            NetworkManager.singleton.networkAddress = _serverAddress;
+            NetworkManager.singleton.networkPort = System.Convert.ToInt32(portDataString);
+            NetworkManager.singleton.StartClient();
+        }
+
         SceneManager.LoadScene("SceneOnline");
+    }
+
+    static string BytesToString(byte[] bytes)
+    {
+        char[] chars = new char[bytes.Length / sizeof(char)];
+        System.Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
+        return new string(chars);
     }
 }

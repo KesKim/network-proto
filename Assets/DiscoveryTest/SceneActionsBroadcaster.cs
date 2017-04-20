@@ -16,7 +16,25 @@ public class SceneActionsBroadcaster : SceneActions
 
     private void cancelBroadcasting()
     {
+        sceneActions = new List<TestAction>(0);
+
+        setupActionButtons();
+
+        TestNetServer broadcaster = GameObject.FindObjectOfType<TestNetServer>();
+        broadcaster.StopBroadcast();
+        Destroy(broadcaster.gameObject);
+
+        NetworkManagerDiscovery.singleton.StopHost();
+
         SceneManager.LoadScene("SceneInit");
+        //StartCoroutine(delayAction(()=>{SceneManager.LoadScene("SceneInit");}, new WaitForSeconds(1f)));
+    }
+
+    private IEnumerator delayAction(System.Action _action, WaitForSeconds _delay)
+    {
+        yield return _delay;
+
+        _action();
     }
 
     private void startHostingGame()

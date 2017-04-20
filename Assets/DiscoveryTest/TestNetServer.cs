@@ -44,7 +44,7 @@ public class TestNetServer : NetworkDiscovery
         if ( serverCreated )
         {
             serverPort = defaultPort;
-            Debug.Log("Server Created with deafault port");
+            Debug.Log("Server Created with default port");
         }
         else
         {

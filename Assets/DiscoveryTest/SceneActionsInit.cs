@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class SceneActionsInit : SceneActions
 {
+    [SerializeField] private NetworkManagerDiscovery networkManager;
+
     private void Awake()
     {
         sceneActions = new List<TestAction>()
