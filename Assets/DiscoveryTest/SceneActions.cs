@@ -20,7 +20,12 @@ public class SceneActions : MonoBehaviour
 
         if ( autoSetupOnStart )
         {
-            buttonGrid.setActions(sceneActions.ToArray());
+            setupActionButtons();
         }
 	}
+
+    protected void setupActionButtons()
+    {
+        buttonGrid.setActions(sceneActions.ToArray());
+    }
 }

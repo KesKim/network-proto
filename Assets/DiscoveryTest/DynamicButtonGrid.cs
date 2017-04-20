@@ -26,11 +26,23 @@ public class DynamicButtonGrid : MonoBehaviour
 
     public void setActions(TestAction[] _actions)
     {
+        destroyButtons();
+
         int count = _actions.Length;
 
         for ( int i = 0; i < count; i++ )
         {
             createButton(_actions[i]);
+        }
+    }
+
+    private void destroyButtons()
+    {
+        int count = buttonParent.GetChildCount();
+
+        for ( int i = count - 1; i > -1; i-- )
+        {
+            Destroy(buttonParent.GetChild(i).gameObject);
         }
     }
 
