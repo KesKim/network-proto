@@ -88,8 +88,8 @@ public class SceneActionsListener : SceneActions
 
         if ( NetworkManager.singleton != null && NetworkManager.singleton.client == null )
         {
-            NetworkManager.singleton.networkAddress = _serverAddress;
-            NetworkManager.singleton.networkPort = System.Convert.ToInt32(portDataString);
+			SceneActionsOnline.serverNetworkAddress = _serverAddress;
+			SceneActionsOnline.serverNetworkPort = System.Convert.ToInt32(portDataString);
 
             endListening();
 

@@ -9,6 +9,8 @@ public class TestNetServer : NetworkDiscovery
     [SerializeField] private int maxPort = 10010;
     [SerializeField] private int defaultPort = 10000;
 
+	public static int serverPortUsed;
+
     private void Start()
     {
         Application.runInBackground = true;
@@ -18,12 +20,12 @@ public class TestNetServer : NetworkDiscovery
     //Call to create a server
     public void startServer()
     {
-        int serverPort = createServer();
+        serverPortUsed = createServer();
 
-        if ( serverPort != -1 )
+        if ( serverPortUsed != -1 )
         {
-            Debug.Log("Server created on port : " + serverPort);
-            broadcastData = serverPort.ToString();
+            Debug.Log("Server created on port : " + serverPortUsed);
+            broadcastData = serverPortUsed.ToString();
             Initialize();
             StartAsServer();
         }
@@ -36,14 +38,14 @@ public class TestNetServer : NetworkDiscovery
     //Creates a server then returns the port the server is created with. Returns -1 if server is not created
     private int createServer()
     {
-        int serverPort = -1;
+		int attemptServerPort = -1;
 
         //Connect to default port
         bool serverCreated = NetworkServer.Listen(defaultPort);
 
         if ( serverCreated )
         {
-            serverPort = defaultPort;
+            attemptServerPort = defaultPort;
             Debug.Log("Server Created with default port");
         }
         else
@@ -59,7 +61,7 @@ public class TestNetServer : NetworkDiscovery
                     //Exit loop if successfully create a server
                     if ( NetworkServer.Listen(tempPort) )
                     {
-                        serverPort = tempPort;
+                        attemptServerPort = tempPort;
                         break;
                     }
 
@@ -72,6 +74,6 @@ public class TestNetServer : NetworkDiscovery
             }
         }
 
-        return serverPort;
+        return attemptServerPort;
     }
 }

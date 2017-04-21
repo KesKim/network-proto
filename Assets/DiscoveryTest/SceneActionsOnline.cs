@@ -7,6 +7,8 @@ using UnityEngine.Networking;
 public class SceneActionsOnline : SceneActions
 {
     public static bool isLocalPlayerHost;
+	public static string serverNetworkAddress;
+	public static int serverNetworkPort;
 
     [SerializeField] private GameObject interactionPlane;
 
@@ -21,11 +23,15 @@ public class SceneActionsOnline : SceneActions
         if ( isLocalPlayerHost )
         {
             Debug.Log("Starting host");
+			CustomNetworkManager.singleton.networkAddress = serverNetworkAddress;
+			CustomNetworkManager.singleton.networkPort = serverNetworkPort;
             NetworkClient hostClient = CustomNetworkManager.singleton.StartHost();
         }
         else
         {
             Debug.Log("Starting client");
+			CustomNetworkManager.singleton.networkAddress = serverNetworkAddress;
+			CustomNetworkManager.singleton.networkPort = serverNetworkPort;
             NetworkClient remoteClient = CustomNetworkManager.singleton.StartClient();
         }
     }
@@ -34,7 +40,14 @@ public class SceneActionsOnline : SceneActions
     {
         Debug.Log("Spawning");
 
-        //NetworkServer.Spawn(interactionPlane);
+		// Spawn once only
+		sceneActions = new List<TestAction>()
+		{
+			new TestAction(leaveGame, "Leave game")
+		};
+
+		setupActionButtons();
+
         NetworkServer.SpawnObjects();
     }
 

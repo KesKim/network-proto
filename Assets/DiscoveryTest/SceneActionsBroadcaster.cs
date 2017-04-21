@@ -48,11 +48,11 @@ public class SceneActionsBroadcaster : SceneActions
         sceneActions = new List<TestAction>(0);
         setupActionButtons();
 
-        TestNetServer broadcaster = GameObject.FindObjectOfType<TestNetServer>();
-
         // Configure NetworkManager ahead of time.
-        CustomNetworkManager.singleton.networkPort = broadcaster.broadcastPort;
-        CustomNetworkManager.singleton.networkAddress = Network.player.ipAddress;
+		SceneActionsOnline.serverNetworkAddress = Network.player.ipAddress;
+		SceneActionsOnline.serverNetworkPort = TestNetServer.serverPortUsed;
+
+		Debug.Log("Starting to host game on port " + SceneActionsOnline.serverNetworkPort);
 
         endBroadcasting();
 
