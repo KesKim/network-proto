@@ -6,10 +6,20 @@ using UnityEngine.Networking;
 public class InteractionPlane : NetworkBehaviour
 {
     public static event System.Action<Vector3> positionTappedEvent;
+	public static bool isAvailable { get; private set; }
+
+	private void Awake()
+	{
+		isAvailable = true;
+	}
 
     private void OnMouseDown()
     {
-        Debug.Log("Plane tapped");
+		if ( isAvailable == false )
+		{
+			return;
+		}
+
         Vector3 position = Vector3.zero;
 
         if ( Input.touchCount > 0 )
@@ -36,4 +46,9 @@ public class InteractionPlane : NetworkBehaviour
             positionTappedEvent(position);
         }
     }
+
+	private void OnDestroy()
+	{
+		isAvailable = false;
+	}
 }

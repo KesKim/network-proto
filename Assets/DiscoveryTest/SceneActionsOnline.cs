@@ -64,6 +64,8 @@ public class SceneActionsOnline : SceneActions
             CustomNetworkManager.singleton.StopClient();
         }
 
+		NetworkServer.Shutdown();
+
         SceneManager.LoadScene("SceneInit");
     }
 }

@@ -15,6 +15,8 @@ public class SceneActionsInit : SceneActions
             , new TestAction(startAsClient, "Look for games")
             , new TestAction(()=> { Debug.Log("Beepbeep");  }, "Boop")
         };
+
+		((NetworkManagerDiscovery)NetworkManagerDiscovery.singleton).resetPlayerIds();
     }
 
     private void startAsHost()

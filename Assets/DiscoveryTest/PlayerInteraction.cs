@@ -17,8 +17,19 @@ public class PlayerInteraction : NetworkBehaviour
         InteractionPlane.positionTappedEvent += moveToPosition;
     }
 
+	private void OnDestroy()
+	{
+		InteractionPlane.positionTappedEvent -= moveToPosition;
+	}
+
     private void moveToPosition(Vector3 _position)
     {
+		if ( InteractionPlane.isAvailable == false )
+		{
+			InteractionPlane.positionTappedEvent -= moveToPosition;
+			return;
+		}
+
         if ( this.isLocalPlayer == false )
         {
             return;

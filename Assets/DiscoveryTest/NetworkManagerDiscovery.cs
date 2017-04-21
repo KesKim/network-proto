@@ -14,8 +14,14 @@ public class NetworkManagerDiscovery : NetworkManager
 
     private void Start()
     {
-        freePlayerIds = new List<int>(){ 1, 2 };
+		resetPlayerIds();
     }
+
+	public void resetPlayerIds()
+	{
+		freePlayerIds = new List<int>(){ 1, 2 };
+		playersByControllerId = new Dictionary<int, PlayerInfo>(2);
+	}
 
     public override void OnServerAddPlayer(NetworkConnection _connection, short _playerControllerId)
     {
@@ -27,11 +33,6 @@ public class NetworkManagerDiscovery : NetworkManager
         PlayerInfo info = playerObject.GetComponent<PlayerInfo>();
 
 		info.networkIdentity = info.GetComponent<NetworkIdentity>();
-
-        if ( playersByControllerId == null )
-        {
-            playersByControllerId = new Dictionary<int, PlayerInfo>();
-        }
 
 		info.uniquePlayerId = freePlayerIds[0];
 		freePlayerIds.RemoveAt(0);
