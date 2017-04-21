@@ -25,14 +25,14 @@ public class SceneActionsOnline : SceneActions
             Debug.Log("Starting host");
 			CustomNetworkManager.singleton.networkAddress = serverNetworkAddress;
 			CustomNetworkManager.singleton.networkPort = serverNetworkPort;
-            NetworkClient hostClient = CustomNetworkManager.singleton.StartHost();
+            /*NetworkClient hostClient = */CustomNetworkManager.singleton.StartHost();
         }
         else
         {
             Debug.Log("Starting client");
 			CustomNetworkManager.singleton.networkAddress = serverNetworkAddress;
 			CustomNetworkManager.singleton.networkPort = serverNetworkPort;
-            NetworkClient remoteClient = CustomNetworkManager.singleton.StartClient();
+            /*NetworkClient remoteClient = */CustomNetworkManager.singleton.StartClient();
         }
     }
 
