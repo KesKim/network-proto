@@ -21,6 +21,16 @@ public class InteractionPlane : NetworkBehaviour
             position = Input.mousePosition;
         }
 
+		Plane plane = new Plane(Vector3.up, Vector3.zero);
+
+		Ray ray = Camera.main.ScreenPointToRay(position);
+		float distance;
+
+		if ( plane.Raycast(ray, out distance) )
+		{
+			position = ray.GetPoint(distance);
+		}
+
         if ( positionTappedEvent != null )
         {
             positionTappedEvent(position);
