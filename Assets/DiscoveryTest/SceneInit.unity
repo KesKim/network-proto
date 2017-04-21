@@ -338,7 +338,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonGrid: {fileID: 189827063}
   autoSetupOnStart: 1
-  networkManager: {fileID: 0}
+  networkManager: {fileID: 917503205}
 --- !u!4 &619983853
 Transform:
   m_ObjectHideFlags: 0
@@ -452,6 +452,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a58890ceb62a60141ba07efa699f7fc2, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &917503205 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114651531161470728, guid: 0598b2728daa37c40ad878274d4bd10d,
+    type: 2}
+  m_PrefabInternal: {fileID: 1951533947}
+  m_Script: {fileID: 11500000, guid: 154485579ee1d924bb0302da8af8c979, type: 3}
 --- !u!1001 &1951533947
 Prefab:
   m_ObjectHideFlags: 0
