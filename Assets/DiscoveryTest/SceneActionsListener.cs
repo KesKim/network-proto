@@ -59,8 +59,6 @@ public class SceneActionsListener : SceneActions
 
             foreach ( KeyValuePair<string, NetworkBroadcastResult> kvp in TestNetClient.Instance.broadcastsReceived )
             {
-                Debug.Log("Hi");
-
                 sceneActions.Add(new TestAction(()=>{joinGame(kvp.Value.serverAddress);}, kvp.Key));
             }
 
@@ -85,11 +83,14 @@ public class SceneActionsListener : SceneActions
         Destroy(listener.gameObject);
 
         string portDataString = BytesToString(TestNetClient.Instance.broadcastsReceived[_serverAddress].broadcastData);
+		int port = System.Convert.ToInt32(portDataString);
+
+		Debug.Log("Joining as client to " + _serverAddress + " on port " + port);
 
         if ( NetworkManager.singleton != null && NetworkManager.singleton.client == null )
         {
 			SceneActionsOnline.serverNetworkAddress = _serverAddress;
-			SceneActionsOnline.serverNetworkPort = System.Convert.ToInt32(portDataString);
+			SceneActionsOnline.serverNetworkPort = port;
 
             endListening();
 

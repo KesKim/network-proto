@@ -491,6 +491,41 @@ Prefab:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 114651531161470728, guid: 0598b2728daa37c40ad878274d4bd10d,
+        type: 2}
+      propertyPath: m_ConnectionConfig.m_MinUpdateTimeout
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 114651531161470728, guid: 0598b2728daa37c40ad878274d4bd10d,
+        type: 2}
+      propertyPath: m_ConnectionConfig.m_ConnectTimeout
+      value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 114651531161470728, guid: 0598b2728daa37c40ad878274d4bd10d,
+        type: 2}
+      propertyPath: m_ConnectionConfig.m_DisconnectTimeout
+      value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 114651531161470728, guid: 0598b2728daa37c40ad878274d4bd10d,
+        type: 2}
+      propertyPath: m_ConnectionConfig.m_PingTimeout
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 114651531161470728, guid: 0598b2728daa37c40ad878274d4bd10d,
+        type: 2}
+      propertyPath: m_GlobalConfig.m_ThreadAwakeTimeout
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114651531161470728, guid: 0598b2728daa37c40ad878274d4bd10d,
+        type: 2}
+      propertyPath: m_MaxDelay
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 114651531161470728, guid: 0598b2728daa37c40ad878274d4bd10d,
+        type: 2}
+      propertyPath: m_LogLevel
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0598b2728daa37c40ad878274d4bd10d, type: 2}
   m_IsPrefabParent: 0

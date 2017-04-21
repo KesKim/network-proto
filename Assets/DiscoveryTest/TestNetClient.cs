@@ -33,7 +33,7 @@ public class TestNetClient : NetworkDiscovery
 
     public override void OnReceivedBroadcast(string _fromAddress, string _data)
     {
-        Debug.Log("Server Found at " + _fromAddress + " with data: " + _data);
+        //Debug.Log("Server Found at " + _fromAddress + " with data: " + _data);
 
         if ( serverFoundEvent != null )
         {

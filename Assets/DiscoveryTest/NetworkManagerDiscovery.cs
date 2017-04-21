@@ -12,15 +12,12 @@ public class NetworkManagerDiscovery : NetworkManager
 
 	public List<int> freePlayerIds;
 
-    private void Start()
-    {
-		resetPlayerIds();
-    }
-
 	public void resetPlayerIds()
 	{
 		freePlayerIds = new List<int>(){ 1, 2 };
 		playersByControllerId = new Dictionary<int, PlayerInfo>(2);
+
+		Debug.Log("Available Player IDs reset");
 	}
 
     public override void OnServerAddPlayer(NetworkConnection _connection, short _playerControllerId)
@@ -28,14 +25,17 @@ public class NetworkManagerDiscovery : NetworkManager
 		Debug.Log("Player joining: " + _connection.address + " " + _connection.connectionId + " " + _playerControllerId);
 
         GameObject playerObject = (GameObject)GameObject.Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
-        playerObject.name = "PlayerObject" + _playerControllerId;
 
         PlayerInfo info = playerObject.GetComponent<PlayerInfo>();
 
 		info.networkIdentity = info.GetComponent<NetworkIdentity>();
 
+		Debug.Log(freePlayerIds.Count);
+
 		info.uniquePlayerId = freePlayerIds[0];
 		freePlayerIds.RemoveAt(0);
+
+		playerObject.name = "PlayerObject" + info.uniquePlayerId;
 
 		if ( playersByControllerId.ContainsKey(_connection.connectionId) == false )
         {
