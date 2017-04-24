@@ -15,5 +15,11 @@ EditorBuildSettings:
     path: Assets/DiscoveryTest/SceneListener.unity
     guid: 9dc53e0917e3883479476721ac7205fe
   - enabled: 1
+    path: Assets/DiscoveryTest/SceneLocalClient.unity
+    guid: 5fc772c1d70a64259b4cb85d957e772f
+  - enabled: 1
+    path: Assets/DiscoveryTest/SceneLocalHost.unity
+    guid: 6c71aee354c804b18bd0ea81ded53f25
+  - enabled: 1
     path: Assets/DiscoveryTest/SceneOnline.unity
     guid: b0c819457c43d8d40ae9288a14b22947

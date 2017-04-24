@@ -43,12 +43,12 @@ public class SceneActionsInit : SceneActions
 
 	private void startAsLocalHost()
 	{
-		SceneManager.LoadScene("SceneBroadcaster");
+		SceneManager.LoadScene("SceneLocalHost");
 	}
 
 	private void startAsLocalClient()
 	{
-		SceneManager.LoadScene("SceneListener");
+		SceneManager.LoadScene("SceneLocalClient");
 	}
 
 }
