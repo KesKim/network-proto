@@ -13,7 +13,8 @@ public class SceneActionsInit : SceneActions
         {
             new TestAction(startAsHost, "Host game")
             , new TestAction(startAsClient, "Look for games")
-            , new TestAction(()=> { Debug.Log("Beepbeep");  }, "Boop")
+			, new TestAction(startAsLocalHost, "Host as local")
+			, new TestAction(startAsLocalClient, "Join as local")
         };
 
 		networkManager.resetPlayerIds();
@@ -39,4 +40,15 @@ public class SceneActionsInit : SceneActions
     {
         SceneManager.LoadScene("SceneListener");
     }
+
+	private void startAsLocalHost()
+	{
+		SceneManager.LoadScene("SceneBroadcaster");
+	}
+
+	private void startAsLocalClient()
+	{
+		SceneManager.LoadScene("SceneListener");
+	}
+
 }

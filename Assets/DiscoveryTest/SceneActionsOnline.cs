@@ -23,16 +23,16 @@ public class SceneActionsOnline : SceneActions
         if ( isLocalPlayerHost )
         {
             Debug.Log("Starting host");
-			CustomNetworkManager.singleton.networkAddress = serverNetworkAddress;
-			CustomNetworkManager.singleton.networkPort = serverNetworkPort;
-            /*NetworkClient hostClient = */CustomNetworkManager.singleton.StartHost();
+			NetworkManagerDiscovery.singleton.networkAddress = serverNetworkAddress;
+			NetworkManagerDiscovery.singleton.networkPort = serverNetworkPort;
+			/*NetworkClient hostClient = */NetworkManagerDiscovery.singleton.StartHost();
         }
         else
         {
             Debug.Log("Starting client");
-			CustomNetworkManager.singleton.networkAddress = serverNetworkAddress;
-			CustomNetworkManager.singleton.networkPort = serverNetworkPort;
-            /*NetworkClient remoteClient = */CustomNetworkManager.singleton.StartClient();
+			NetworkManagerDiscovery.singleton.networkAddress = serverNetworkAddress;
+			NetworkManagerDiscovery.singleton.networkPort = serverNetworkPort;
+			/*NetworkClient remoteClient = */NetworkManagerDiscovery.singleton.StartClient();
         }
     }
 
@@ -56,12 +56,12 @@ public class SceneActionsOnline : SceneActions
         if ( Network.isServer )
         {
             Debug.Log("Stopping host");
-            CustomNetworkManager.singleton.StopHost();
+			NetworkManagerDiscovery.singleton.StopHost();
         }
         else
         {
             Debug.Log("Stopping client");
-            CustomNetworkManager.singleton.StopClient();
+			NetworkManagerDiscovery.singleton.StopClient();
         }
 
 		Debug.Log("NetworkServer.Shutdown");
