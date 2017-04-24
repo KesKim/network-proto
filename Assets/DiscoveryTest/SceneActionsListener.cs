@@ -93,8 +93,6 @@ public class SceneActionsListener : SceneActions
 			SceneActionsOnline.serverNetworkPort = port;
 
             endListening();
-
-            NetworkManager.singleton.StartClient();
         }
 
         SceneManager.LoadScene("SceneOnline");
