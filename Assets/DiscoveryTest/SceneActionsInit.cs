@@ -20,7 +20,7 @@ public class SceneActionsInit : SceneActions
 		networkManager.resetPlayerIds();
     }
 
-	protected override void Start ()
+	protected override void Start()
 	{
 		base.Start();
 
