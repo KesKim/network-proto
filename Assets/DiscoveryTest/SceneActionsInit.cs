@@ -19,6 +19,17 @@ public class SceneActionsInit : SceneActions
 		networkManager.resetPlayerIds();
     }
 
+	protected override void Start ()
+	{
+		base.Start();
+
+		int networkDropTreshold = 50;
+		NetworkManagerDiscovery.singleton.connectionConfig.NetworkDropThreshold = (byte)networkDropTreshold;
+
+		int overflowDropTreshold = 50;
+		NetworkManagerDiscovery.singleton.connectionConfig.OverflowDropThreshold = (byte)overflowDropTreshold;
+	}
+
     private void startAsHost()
     {
         SceneManager.LoadScene("SceneBroadcaster");
