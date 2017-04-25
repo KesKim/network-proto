@@ -20,6 +20,8 @@ public class NetworkManagerDiscovery : NetworkManager
 		Debug.Log("Available Player IDs reset, " + freePlayerIds.Count + " remaining.");
 	}
 
+
+	// Called on the client when connected to a server.
 	public override void OnClientConnect(NetworkConnection _connection)
 	{
 		LocalPlayerInfo.connection = _connection;
@@ -42,6 +44,7 @@ public class NetworkManagerDiscovery : NetworkManager
 		Debug.Log("Connection PlayerController: " + ((_connection.playerControllers == null || _connection.playerControllers.Count < 1) ? "NULL or empty" : _connection.playerControllers.ToString()));
 	}
 
+	// Called on clients when disconnected from a server.
 	public override void OnClientDisconnect(NetworkConnection _connection)
 	{
 		#region Base implementation
@@ -96,7 +99,7 @@ public class NetworkManagerDiscovery : NetworkManager
 
 	public override void OnStopClient()
 	{
-		Debug.Log("OnStopClient");
+		Debug.Log("OnStopClient Override");
 
         if ( NetworkManager.singleton != null && NetworkManager.singleton.client != null )
         {

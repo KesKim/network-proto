@@ -11,17 +11,27 @@ public class SceneActionsLobby : SceneActions
 	[SerializeField] private TestNetServer discoveryBroadcaster;
 	[SerializeField] private TestNetClient discoveryListener;
 
+	private int gameServerNetworkPort;
+
+	private List<TestAction> noActions;
+	private List<TestAction> broadcasterStatic;
+	private List<TestAction> listenerStatic;
+	private List<TestAction> listenerPostJoin;
+
+	private void Awake()
+	{
+		noActions = new List<TestAction>(){};
+		broadcasterStatic = new List<TestAction>(){new TestAction(leaveGame, "Leave game"), new TestAction(leaveGame, "Start Game")};
+		listenerStatic = new List<TestAction>(){new TestAction(listenerBackToInit, "Leave game")};
+		listenerPostJoin = new List<TestAction>(){new TestAction(leaveGame, "Leave game")};
+	}
+
 	protected override void Start()
 	{
-		sceneActions = new List<TestAction>()
-		{
-			new TestAction(()=>{Debug.Log("foo");}, "foo")
-		};
-
-		base.Start();
-
 		if ( enterAsHost )
 		{
+			sceneActions = broadcasterStatic;
+
 			// Defines port used
 			discoveryBroadcaster.startServer();
 
@@ -35,11 +45,15 @@ public class SceneActionsLobby : SceneActions
 		}
 		else
 		{
+			sceneActions = listenerStatic;
+
 			TestNetClient.serverFoundEvent -= onServerFound;
 			TestNetClient.serverFoundEvent += onServerFound;
 
 			discoveryListener.startClient();
 		}
+
+		base.Start();
 	}
 
 	private void leaveGame()
@@ -102,8 +116,9 @@ public class SceneActionsLobby : SceneActions
 		if ( discoveryListener.broadcastsReceived != null && discoveryListener.broadcastsReceived.Count > 0 )
 		{
 			int count = discoveryListener.broadcastsReceived.Count;
-			sceneActions = new List<TestAction>(count + 1);
-			sceneActions.Add(new TestAction(listenerBackToInit, "Stop listening"));
+
+			sceneActions = new List<TestAction>(count + listenerStatic.Count);
+			sceneActions.AddRange(listenerStatic);
 			
 			foreach ( KeyValuePair<string, NetworkBroadcastResult> kvp in discoveryListener.broadcastsReceived )
 			{
@@ -114,36 +129,37 @@ public class SceneActionsLobby : SceneActions
 		}
 		else
 		{
-			sceneActions = new List<TestAction>()
-			{
-				new TestAction(listenerBackToInit, "Stop listening")
-			};
+			sceneActions = listenerStatic;
+			setupActionButtons();
 		}
 	}
 
 	private void joinGame(string _serverAddress)
 	{
+		sceneActions = listenerPostJoin;
+		setupActionButtons();
+
 		SceneActionsOnline.isLocalPlayerHost = false;
 
-		TestNetClient listener = GameObject.FindObjectOfType<TestNetClient>();
-		Destroy(listener.gameObject);
+		Destroy(discoveryListener.gameObject);
 
-		string portDataString = BytesToString(TestNetClient.Instance.broadcastsReceived[_serverAddress].broadcastData);
-		int port = System.Convert.ToInt32(portDataString);
+		string portDataString = BytesToString(discoveryListener.broadcastsReceived[_serverAddress].broadcastData);
+		gameServerNetworkPort = System.Convert.ToInt32(portDataString) + 1;
 
-		Debug.Log("Joining as client to " + _serverAddress + " on port " + port);
+		Debug.Log("Joining as client to " + _serverAddress + " on port " + gameServerNetworkPort);
 
-		if ( NetworkManager.singleton != null && NetworkManager.singleton.client == null )
-		{
-			SceneActionsOnline.serverNetworkAddress = _serverAddress;
-			SceneActionsOnline.serverNetworkPort = port;
+		endListening();
 
-			endListening();
-		}
+		NetworkManagerDiscovery.singleton.networkAddress = _serverAddress;
+		NetworkManagerDiscovery.singleton.networkPort = gameServerNetworkPort;
+		/*NetworkClient remoteClient = */NetworkManagerDiscovery.singleton.StartClient();
 	}
 
 	private void listenerBackToInit()
 	{
+		sceneActions = noActions;
+		setupActionButtons();
+
 		endListening();
 
 		SceneManager.LoadScene("SceneInit");
