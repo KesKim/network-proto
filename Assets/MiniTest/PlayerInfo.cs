@@ -5,7 +5,13 @@ using UnityEngine.Networking;
 
 public class PlayerInfo : NetworkBehaviour
 {
+	public int uniquePlayerId;
     public NetworkIdentity networkIdentity;
+
+	public override void OnStartLocalPlayer()
+	{
+		Debug.Log("Local player uniquePlayerId " + uniquePlayerId);
+	}
 
 	public bool isRemoteClient
 	{
@@ -23,20 +29,18 @@ public class PlayerInfo : NetworkBehaviour
 		}
 	}
 
-	public int connectionId
+	public NetworkConnection connection
 	{
 		get
 		{
 			if ( networkIdentity.connectionToClient != null )
 			{
-				return networkIdentity.connectionToClient.connectionId;
+				return networkIdentity.connectionToClient;
 			}
 			else
 			{
-				return networkIdentity.connectionToServer.connectionId;
+				return networkIdentity.connectionToServer;
 			}
 		}
 	}
-
-	public int uniquePlayerId;
 }

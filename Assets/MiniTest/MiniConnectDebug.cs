@@ -61,7 +61,7 @@ public class MiniConnectDebug : NetworkBehaviour
 			foreach ( KeyValuePair<int, PlayerInfo> kvp in CustomNetworkManager.playersByControllerId )
 			{
 				builder.Append("(C) ");
-				builder.Append(kvp.Value.connectionId);
+				builder.Append(kvp.Value.connection.connectionId);
 				builder.Append(" player ");
 				builder.AppendLine(kvp.Value.uniquePlayerId.ToString());
 			}

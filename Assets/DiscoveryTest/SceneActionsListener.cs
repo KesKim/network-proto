@@ -6,19 +6,7 @@ using UnityEngine.Networking;
 
 public class SceneActionsListener : SceneActions
 {
-    //public class ServerInfo
-    //{
-    //    string address;
-    //    string data;
-
-    //    public ServerInfo(string _address, string _data)
-    //    {
-    //        address = _address;
-    //        data = _data;
-    //    }
-    //}
-
-    public static string lastSelectedAddress;
+	[SerializeField] private TestNetClient discoveryListener;
 
     private void Awake()
     {
@@ -30,6 +18,13 @@ public class SceneActionsListener : SceneActions
         TestNetClient.serverFoundEvent -= onServerFound;
         TestNetClient.serverFoundEvent += onServerFound;
     }
+
+	protected override void Start()
+	{
+		base.Start();
+
+		discoveryListener.startClient();
+	}
 
     private void goBackToInit()
     {
@@ -49,7 +44,7 @@ public class SceneActionsListener : SceneActions
 
     private void onServerFound(string _fromAddress, string _data)
     {
-        Debug.Log(TestNetClient.Instance.broadcastsReceived == null ? "Null broadcast Dict." : TestNetClient.Instance.broadcastsReceived.Count < 1 ? "Empty broadcast Dict." : TestNetClient.Instance.broadcastsReceived.Count + " entries known.");
+        //Debug.Log(TestNetClient.Instance.broadcastsReceived == null ? "Null broadcast Dict." : TestNetClient.Instance.broadcastsReceived.Count < 1 ? "Empty broadcast Dict." : TestNetClient.Instance.broadcastsReceived.Count + " entries known.");
 
         if ( TestNetClient.Instance.broadcastsReceived != null && TestNetClient.Instance.broadcastsReceived.Count > 0 )
         {
@@ -76,8 +71,6 @@ public class SceneActionsListener : SceneActions
     private void joinGame(string _serverAddress)
     {
         SceneActionsOnline.isLocalPlayerHost = false;
-
-        lastSelectedAddress = _serverAddress;
 
         TestNetClient listener = GameObject.FindObjectOfType<TestNetClient>();
         Destroy(listener.gameObject);

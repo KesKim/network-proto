@@ -20,11 +20,6 @@ public class TestNetClient : NetworkDiscovery
         Instance = this;
     }
 
-    private void Start()
-    {
-        startClient();
-    }
-
     public void startClient()
     {
         Initialize();

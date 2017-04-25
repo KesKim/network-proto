@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class SceneActionsBroadcaster : SceneActions
 {
+	[SerializeField] private TestNetServer discoveryBroadcaster;
+
     private void Awake()
     {
         sceneActions = new List<TestAction>()
@@ -14,6 +16,13 @@ public class SceneActionsBroadcaster : SceneActions
         };
     }
 
+	protected override void Start()
+	{
+		base.Start();
+
+		discoveryBroadcaster.startServer();
+	}
+
     private void goBackToInit()
     {
         sceneActions = new List<TestAction>(0);
@@ -22,7 +31,6 @@ public class SceneActionsBroadcaster : SceneActions
         endBroadcasting();
 
         SceneManager.LoadScene("SceneInit");
-        //StartCoroutine(delayAction(()=>{SceneManager.LoadScene("SceneInit");}, new WaitForSeconds(1f)));
     }
 
     private void endBroadcasting()
@@ -32,13 +40,6 @@ public class SceneActionsBroadcaster : SceneActions
         Destroy(broadcaster.gameObject);
 
         NetworkManagerDiscovery.singleton.StopHost();
-    }
-
-    private IEnumerator delayAction(System.Action _action, WaitForSeconds _delay)
-    {
-        yield return _delay;
-
-        _action();
     }
 
     private void goOnlineAsHost()

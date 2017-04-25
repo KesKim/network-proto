@@ -9,12 +9,16 @@ public class SceneActionsInit : SceneActions
 
     private void Awake()
     {
+		Application.runInBackground = true;
+
         sceneActions = new List<TestAction>()
         {
             new TestAction(startAsHost, "Host game")
             , new TestAction(startAsClient, "Look for games")
 			, new TestAction(startAsLocalHost, "Host as local")
 			, new TestAction(startAsLocalClient, "Join as local")
+			, new TestAction(hostLobby, "Host lobby")
+			, new TestAction(joinLobby, "Join lobby")
         };
 
 		if ( NetworkManagerDiscovery.singleton == null )
@@ -58,4 +62,15 @@ public class SceneActionsInit : SceneActions
 		SceneManager.LoadScene("SceneLocalClient");
 	}
 
+	private void hostLobby()
+	{
+		SceneActionsLobby.enterAsHost = true;
+		SceneManager.LoadScene("SceneSharedLobby");
+	}
+
+	private void joinLobby()
+	{
+		SceneActionsLobby.enterAsHost = false;
+		SceneManager.LoadScene("SceneSharedLobby");
+	}
 }

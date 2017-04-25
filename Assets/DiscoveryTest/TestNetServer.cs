@@ -5,17 +5,11 @@ using UnityEngine.Networking;
 
 public class TestNetServer : NetworkDiscovery
 {
+	public static int serverPortUsed;
+
     [SerializeField] private int minPort = 10000;
     [SerializeField] private int maxPort = 10010;
     [SerializeField] private int defaultPort = 10000;
-
-	public static int serverPortUsed;
-
-    private void Start()
-    {
-        Application.runInBackground = true;
-        startServer();
-    }
 
     //Call to create a server
     public void startServer()

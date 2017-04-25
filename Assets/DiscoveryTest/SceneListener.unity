@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -273,7 +273,12 @@ Prefab:
     - target: {fileID: 224654910178199790, guid: 811c7a571fed3224ab53c7decf9d9527,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0.32333326
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224418549757938986, guid: 811c7a571fed3224ab53c7decf9d9527,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.000015258789
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 811c7a571fed3224ab53c7decf9d9527, type: 2}
@@ -515,6 +520,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 76da2589f23cf60448db0418be8e1553, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &510291123 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114639559835360738, guid: 76da2589f23cf60448db0418be8e1553,
+    type: 2}
+  m_PrefabInternal: {fileID: 510291122}
+  m_Script: {fileID: 11500000, guid: e498c2cfaa2db284da5ab91388e4dd48, type: 3}
 --- !u!1 &1375881789
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,6 +555,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonGrid: {fileID: 0}
   autoSetupOnStart: 1
+  discoveryListener: {fileID: 510291123}
 --- !u!4 &1375881791
 Transform:
   m_ObjectHideFlags: 0
