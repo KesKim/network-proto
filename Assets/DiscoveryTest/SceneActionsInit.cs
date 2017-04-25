@@ -17,7 +17,14 @@ public class SceneActionsInit : SceneActions
 			, new TestAction(startAsLocalClient, "Join as local")
         };
 
-		networkManager.resetPlayerIds();
+		if ( NetworkManagerDiscovery.singleton == null )
+		{
+			networkManager.resetPlayerIds();
+		}
+		else
+		{
+			((NetworkManagerDiscovery)NetworkManagerDiscovery.singleton).resetPlayerIds();
+		}
     }
 
 	protected override void Start()
