@@ -18,6 +18,14 @@ public class PlayerInfo : NetworkBehaviour
 		}
 	}
 
+	private void OnDestroy()
+	{
+		if ( allPlayers != null )
+		{
+			allPlayers.Remove(this);
+		}
+	}
+
 	public override void OnStartClient()
 	{
 		Debug.Log("X player uniquePlayerId " + uniquePlayerId);

@@ -23,6 +23,7 @@ public class DynamicPlayerView : MonoBehaviour
 
     public void updatePlayers()
     {
+		Debug.Log("Player list changed. Updating player list UI.");
         clearPlayerTexts();
 
 		int count = PlayerInfo.allPlayers.Count;
