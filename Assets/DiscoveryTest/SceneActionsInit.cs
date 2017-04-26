@@ -13,12 +13,11 @@ public class SceneActionsInit : SceneActions
 
         sceneActions = new List<TestAction>()
         {
-            new TestAction(startAsHost, "Host game")
-            , new TestAction(startAsClient, "Look for games")
-			, new TestAction(startAsLocalHost, "Host as local")
-			, new TestAction(startAsLocalClient, "Join as local")
-			, new TestAction(hostLobby, "Host lobby")
-			, new TestAction(joinLobby, "Join lobby")
+			//new TestAction(startAsLocalHost, "Host Local")
+			//, new TestAction(startAsLocalClient, "Join Local")
+			new TestAction(hostLobby, "Host Lobby")
+			, new TestAction(joinLobby, "Join Lobby")
+			, new TestAction(toPlayerOptions, "Player Options")
         };
 
 		if ( NetworkManagerDiscovery.singleton == null )
@@ -72,5 +71,10 @@ public class SceneActionsInit : SceneActions
 	{
 		SceneActionsLobby.enterAsHost = false;
 		SceneManager.LoadScene("SceneSharedLobby");
+	}
+
+	private void toPlayerOptions()
+	{
+		SceneManager.LoadScene("ScenePlayerOptions");
 	}
 }

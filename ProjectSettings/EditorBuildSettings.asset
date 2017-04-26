@@ -26,3 +26,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/DiscoveryTest/SceneSharedLobby.unity
     guid: a0ae2206e0b2b4612ab2de1b69d3038e
+  - enabled: 1
+    path: Assets/DiscoveryTest/ScenePlayerOptions.unity
+    guid: 00000000000000000000000000000000
