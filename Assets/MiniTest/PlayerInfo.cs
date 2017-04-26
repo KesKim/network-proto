@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 public class PlayerInfo : NetworkBehaviour
 {
-	public int uniquePlayerId;
+	public int uniquePlayerId = -1;
     public NetworkIdentity networkIdentity;
 
 	public static List<PlayerInfo> allPlayers;
@@ -16,14 +16,23 @@ public class PlayerInfo : NetworkBehaviour
 		{
 			allPlayers = new List<PlayerInfo>();
 		}
+
+		if ( networkIdentity == null )
+		{
+			networkIdentity = this.GetComponent<NetworkIdentity>();
+		}
 	}
 
 	private void OnDestroy()
 	{
 		if ( allPlayers != null )
 		{
-			allPlayers.Remove(this);
+			Debug.Log("Removing player " + this.uniquePlayerId + ". allPlayers.Count " + allPlayers.Count);
+			bool isRemoved = allPlayers.Remove(this);
+			Debug.Log("Removal " +isRemoved + ". allPlayers.Count " + allPlayers.Count);
 		}
+
+		NetworkManagerDiscovery.triggerPlayersChangedEvent();
 	}
 
 	public override void OnStartClient()
@@ -34,6 +43,8 @@ public class PlayerInfo : NetworkBehaviour
 		{
 			allPlayers.Add(this);
 		}
+
+		NetworkManagerDiscovery.triggerPlayersChangedEvent();
 	}
 
 	public override void OnStartLocalPlayer()

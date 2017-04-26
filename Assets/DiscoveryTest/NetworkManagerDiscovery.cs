@@ -47,6 +47,8 @@ public class NetworkManagerDiscovery : NetworkManager
 	// Called on clients when disconnected from a server.
 	public override void OnClientDisconnect(NetworkConnection _connection)
 	{
+		Debug.Log("OnClientDisconnect override");
+
 		#region Base implementation
 		StopClient();
 		#endregion
@@ -54,6 +56,8 @@ public class NetworkManagerDiscovery : NetworkManager
 
 	public override void OnServerRemovePlayer(NetworkConnection _connection, PlayerController _player)
 	{
+		Debug.Log("OnServerRemovePlayer override");
+
 		PlayerInfo info = _player.gameObject.GetComponent<PlayerInfo>();
 
 		#region Base implementation
@@ -91,10 +95,7 @@ public class NetworkManagerDiscovery : NetworkManager
 
         NetworkServer.AddPlayerForConnection(_connection, playerObject, _playerControllerId);
 
-        if ( playersChangedEvent != null )
-        {
-            playersChangedEvent();
-        }
+		triggerPlayersChangedEvent();
     }
 
 	public override void OnStopClient()
@@ -107,6 +108,7 @@ public class NetworkManagerDiscovery : NetworkManager
         }
 	}
 
+	// Called on the server when a client disconnects.
 	public override void OnServerDisconnect(NetworkConnection _connection)
 	{
 		int uniquePlayerId = playersByControllerId[_connection.connectionId].uniquePlayerId;
@@ -143,9 +145,16 @@ public class NetworkManagerDiscovery : NetworkManager
 		}
 
 		NetworkServer.DestroyPlayersForConnection(_connection);
+
+		_connection.Disconnect();
 		// default implementation basically just calls the above line and prints errors if any
 		//base.OnServerDisconnect(_connection);
 
+		triggerPlayersChangedEvent();
+	}
+
+	public static void triggerPlayersChangedEvent()
+	{
 		if ( playersChangedEvent != null )
 		{
 			playersChangedEvent();
