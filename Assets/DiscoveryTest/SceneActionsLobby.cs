@@ -21,7 +21,7 @@ public class SceneActionsLobby : SceneActions
 	private void Awake()
 	{
 		noActions = new List<TestAction>(){};
-		broadcasterStatic = new List<TestAction>(){new TestAction(leaveGame, "Leave game"), new TestAction(leaveGame, "Start Game")};
+		broadcasterStatic = new List<TestAction>(){new TestAction(leaveGame, "Leave game"), new TestAction(hostStartGame, "Start Game")};
 		listenerStatic = new List<TestAction>(){new TestAction(listenerBackToInit, "Leave game")};
 		listenerPostJoin = new List<TestAction>(){new TestAction(leaveGame, "Leave game")};
 	}
@@ -30,6 +30,8 @@ public class SceneActionsLobby : SceneActions
 	{
 		if ( enterAsHost )
 		{
+			Destroy(discoveryListener.gameObject);
+
 			sceneActions = broadcasterStatic;
 
 			// Defines port used
@@ -45,6 +47,8 @@ public class SceneActionsLobby : SceneActions
 		}
 		else
 		{
+			Destroy(discoveryBroadcaster.gameObject);
+
 			sceneActions = listenerStatic;
 
 			TestNetClient.serverFoundEvent -= onServerFound;
@@ -58,30 +62,59 @@ public class SceneActionsLobby : SceneActions
 
 	private void leaveGame()
 	{
-		if ( Network.isServer )
-		{
-			Debug.Log("Stopping host");
-			NetworkManagerDiscovery.singleton.StopHost();
-		}
-		else
-		{
-			Debug.Log("Stopping client");
-			NetworkManagerDiscovery.singleton.StopClient();
-		}
-
-		Debug.Log("NetworkServer.Shutdown");
-		NetworkServer.Shutdown();
+		closeAllConnections();
 
 		SceneManager.LoadScene("SceneInit");
 	}
 
+	private void closeAllConnections()
+	{
+		if ( enterAsHost )
+		{
+			Debug.Log("Closing all: full host shutdown");
+			endBroadcasting();
+
+			if ( NetworkManagerDiscovery.singleton.isNetworkActive )
+			{
+				Debug.Log("StopHost");
+				NetworkManagerDiscovery.singleton.StopHost();
+			}
+		}
+		else
+		{
+			endListening();
+
+			if ( NetworkManagerDiscovery.singleton.isNetworkActive )
+			{
+				NetworkManagerDiscovery.singleton.StopClient();
+			}	
+		}
+
+		if ( NetworkServer.active || true )
+		{
+			NetworkServer.Shutdown();
+		}
+
+		NetworkTransport.Shutdown();
+	}
+
 	#region Host
+	private void hostStartGame()
+	{
+		endBroadcasting();
+	}
+
 	private void endBroadcasting()
 	{
-		discoveryBroadcaster.StopBroadcast();
-		Destroy(discoveryBroadcaster.gameObject);
-		
-		NetworkManagerDiscovery.singleton.StopHost();
+		if ( discoveryBroadcaster != null )
+		{
+			Debug.Log("StopBroadcast");
+			discoveryBroadcaster.StopBroadcast();
+			Destroy(discoveryBroadcaster.gameObject);
+		}
+
+		// Do not stop the entire hosting, just broadcasting. Other state cleanup must be done when actually leaving this Scene fully.
+		//NetworkManagerDiscovery.singleton.StopHost();
 	}
 
 	private void spawnStuff()
@@ -104,11 +137,14 @@ public class SceneActionsLobby : SceneActions
 	private void endListening()
 	{
 		TestNetClient.serverFoundEvent -= onServerFound;
-		
-		discoveryListener.StopBroadcast();
-		Destroy(discoveryListener.gameObject);
-	
+
+		if ( discoveryListener != null )
+		{
+			discoveryListener.StopBroadcast();
+			Destroy(discoveryListener.gameObject);
+		}
 	}
+
 	private void onServerFound(string _fromAddress, string _data)
 	{
 		//Debug.Log(TestNetClient.Instance.broadcastsReceived == null ? "Null broadcast Dict." : TestNetClient.Instance.broadcastsReceived.Count < 1 ? "Empty broadcast Dict." : TestNetClient.Instance.broadcastsReceived.Count + " entries known.");
