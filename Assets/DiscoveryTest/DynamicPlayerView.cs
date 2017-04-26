@@ -49,6 +49,6 @@ public class DynamicPlayerView : MonoBehaviour
 		GameObject item = (GameObject)Instantiate(prefab, holderParent);
 
         Text text = item.GetComponentInChildren<Text>();
-		text.text = "Player " + _player.uniquePlayerId + " - COLOR - " + _player.connection.address;
+		text.text = "Player " + _player.uniquePlayerId + " - COLOR - " + ((_player.connection != null) ?_player.connection.address : "no conn");
     }
 }
