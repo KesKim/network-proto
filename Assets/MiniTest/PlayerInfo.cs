@@ -99,14 +99,16 @@ public class PlayerInfo : NetworkBehaviour
 		}
 
 		NetworkManagerDiscovery.triggerPlayersChangedEvent();
-
-		CmdSetPlayerName(LocalPlayerInfo.playerName);
-		CmdSetPlayerColor(LocalPlayerInfo.playerColor);
 	}
 
 	public override void OnStartLocalPlayer()
 	{
 		Debug.Log("Local player uniquePlayerId " + uniquePlayerId);
+
+		CmdSetPlayerName(LocalPlayerInfo.playerName);
+		CmdSetPlayerColor(LocalPlayerInfo.playerColor);
+
+		NetworkManagerDiscovery.triggerPlayersChangedEvent();
 	}
 
 	public bool isRemoteClient
