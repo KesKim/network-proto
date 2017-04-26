@@ -5,7 +5,18 @@ using UnityEngine.Networking;
 
 public class PlayerInfo : NetworkBehaviour
 {
+	[SyncVar(hook="onPlayerIdChanged")]
 	public int uniquePlayerId = -1;
+
+	[SyncVar(hook="onPlayerIpChanged")]
+	public string ipAddress = null;
+
+	[SyncVar(hook="onPlayerNameChanged")]
+	public string playerName = null;
+
+	[SyncVar(hook="onPlayerColorChanged")]
+	public Color playerColor = Color.grey;
+
     public NetworkIdentity networkIdentity;
 
 	public static List<PlayerInfo> allPlayers;
@@ -23,16 +34,59 @@ public class PlayerInfo : NetworkBehaviour
 		}
 	}
 
+	private void onPlayerIdChanged(int _newId)
+	{
+		uniquePlayerId = _newId;
+		NetworkManagerDiscovery.triggerPlayersChangedEvent();
+	}
+
+	private void onPlayerIpChanged(string _newIp)
+	{
+		ipAddress = _newIp;
+		NetworkManagerDiscovery.triggerPlayersChangedEvent();
+	}
+
+	private void onPlayerNameChanged(string _playerName)
+	{
+		playerName = _playerName;
+		NetworkManagerDiscovery.triggerPlayersChangedEvent();
+	}
+
+	[Command]
+	private void CmdSetPlayerName(string _playerName)
+	{
+		playerName = _playerName;
+		NetworkManagerDiscovery.triggerPlayersChangedEvent();
+	}
+
+	private void onPlayerColorChanged(Color _playerColor)
+	{
+		playerColor = _playerColor;
+		NetworkManagerDiscovery.triggerPlayersChangedEvent();
+	}
+
+	[Command]
+	private void CmdSetPlayerColor(Color _playerColor)
+	{
+		playerColor = _playerColor;
+		NetworkManagerDiscovery.triggerPlayersChangedEvent();
+	}
+
 	private void OnDestroy()
 	{
 		if ( allPlayers != null )
 		{
 			Debug.Log("Removing player " + this.uniquePlayerId + ". allPlayers.Count " + allPlayers.Count);
 			bool isRemoved = allPlayers.Remove(this);
-			Debug.Log("Removal " +isRemoved + ". allPlayers.Count " + allPlayers.Count);
+			Debug.Log("Removal " + isRemoved + ". allPlayers.Count " + allPlayers.Count);
 		}
 
 		NetworkManagerDiscovery.triggerPlayersChangedEvent();
+	}
+
+	public override void OnStartServer()
+	{
+		ipAddress = networkIdentity.connectionToClient.address;
 	}
 
 	public override void OnStartClient()
@@ -45,6 +99,9 @@ public class PlayerInfo : NetworkBehaviour
 		}
 
 		NetworkManagerDiscovery.triggerPlayersChangedEvent();
+
+		CmdSetPlayerName(LocalPlayerInfo.playerName);
+		CmdSetPlayerColor(LocalPlayerInfo.playerColor);
 	}
 
 	public override void OnStartLocalPlayer()

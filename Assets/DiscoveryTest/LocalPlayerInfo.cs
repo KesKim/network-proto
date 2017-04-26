@@ -8,6 +8,9 @@ public class LocalPlayerInfo : MonoBehaviour
 	public static NetworkConnection connection;
 	public static PlayerController controller;
 
+	public static string playerName;
+	public static Color playerColor;
+
 	public static void Initialize()
 	{
 		connection = null;

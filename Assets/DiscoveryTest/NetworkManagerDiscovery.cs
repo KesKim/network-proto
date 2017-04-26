@@ -58,8 +58,6 @@ public class NetworkManagerDiscovery : NetworkManager
 	{
 		Debug.Log("OnServerRemovePlayer override");
 
-		PlayerInfo info = _player.gameObject.GetComponent<PlayerInfo>();
-
 		#region Base implementation
 		if (_player.gameObject != null)
 		{
