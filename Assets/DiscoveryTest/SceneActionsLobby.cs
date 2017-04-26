@@ -62,6 +62,12 @@ public class SceneActionsLobby : SceneActions
 
 	private void leaveGame()
 	{
+		if ( enterAsHost == false )
+		{
+			LocalPlayerInfo.connection.Dispose();
+			LocalPlayerInfo.connection.Disconnect();
+		}
+
 		closeAllConnections();
 
 		SceneManager.LoadScene("SceneInit");
